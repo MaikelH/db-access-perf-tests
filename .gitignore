@@ -1,0 +1,4 @@
+node_modules/
+.idea
+dist/
+performance_test.iml
