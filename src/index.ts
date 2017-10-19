@@ -3,12 +3,13 @@ import {TypeormTest} from "./tests/TypeormTest";
 import {PGTest} from "./tests/PGTest";
 import {Truncate} from "./Truncate";
 import {PGBatchTest} from "./tests/PGBatchTest";
+import { PGCustomInsertTest } from "./tests/PGCustomInsertTest";
 
 const moment = require("moment");
 
 const documents : Document[] = [];
 
-for(let i = 0; i < 16000; i++) {
+for(let i = 0; i < 500; i++) {
 	let doc = new Document();
 
 	doc.id = i.toString();
@@ -39,12 +40,15 @@ for(let i = 0; i < 16000; i++) {
 
 let truncator = new Truncate();
 
+
 PGBatchTest.start(documents)
 	.then(() => truncator.truncate())
 	.then(() => TypeormTest.start(documents))
 	.then(() => truncator.truncate())
 	.then(() => PGTest.start(documents))
 	.then(() => truncator.truncate())
+    .then(() => PGCustomInsertTest.start(documents))
+    .then(() => truncator.truncate())
     .then(() => {
         console.log("Finished test.");
         process.exit();
