@@ -10,7 +10,7 @@ const moment = require("moment");
 
 const documents : Document[] = [];
 
-for(let i = 0; i < 16000; i++) {
+for(let i = 0; i < 4000; i++) {
 	let doc = new Document();
 
 	doc.id = i.toString();

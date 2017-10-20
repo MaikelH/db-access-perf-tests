@@ -1,3 +1,5 @@
+import { UsageStats } from "../UsageStats";
+
 const pgp = require('pg-promise')({ noWarnings: true});
 import {Document} from "../Document";
 
@@ -13,6 +15,8 @@ export class PGBatchTest {
 		});
 
 		let start = new Date().getTime();
+        const us = new UsageStats();
+        us.start();
 
 
 		return db.tx(t => {
@@ -32,8 +36,14 @@ export class PGBatchTest {
 			return t.batch(inserts);
 		}).then(() => {
 			let end = new Date().getTime();
+            const stats = us.stop();
 
-			console.log("[PG-Batch] Call to persist took " + (end - start) + " milliseconds.");
+
+            console.log("[PG-Batch] Call to persist took " + (end - start) + " milliseconds.");
+            console.log(`
+				avg cpu: ${stats.avgCpu}
+				avg memory: ${stats.avgMemory}
+			`);
 
             pgp.end();
 		})

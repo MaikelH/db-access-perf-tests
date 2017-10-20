@@ -1,5 +1,6 @@
 import * as Sequelize from "sequelize";
 import {Document} from "../Document";
+import { UsageStats } from "../UsageStats";
 
 
 export class SequelizeTest {
@@ -29,13 +30,22 @@ export class SequelizeTest {
         // workaround for bluebird Promises stuff..
         return new Promise((resolve, reject) => {
             let start = new Date().getTime();
+            const us = new UsageStats();
+            us.start();
+
             return sequelize.transaction(t => {
                 return Doc.bulkCreate(docs, {
                     transaction: t
                 });
             }).then(() => {
                 let end = new Date().getTime();
+                const stats = us.stop();
+
                 console.log("[Sequelize] Call to persist took " + (end - start) + " milliseconds.");
+                console.log(`
+                    avg cpu: ${stats.avgCpu}
+                    avg memory: ${stats.avgMemory}
+                `);
                 return resolve();
             }).catch(ex => {
                 return reject(ex);
