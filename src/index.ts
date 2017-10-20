@@ -52,5 +52,8 @@ PGBatchTest.start(documents)
     .then(() => {
         console.log("Finished test.");
         process.exit();
-    });
+    })
+	.catch(ex => {
+		console.error(ex);
+	});
 
