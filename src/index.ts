@@ -4,12 +4,13 @@ import {PGTest} from "./tests/PGTest";
 import {Truncate} from "./Truncate";
 import {PGBatchTest} from "./tests/PGBatchTest";
 import { PGCustomInsertTest } from "./tests/PGCustomInsertTest";
+import { SequelizeTest } from "./tests/SequelizeTest";
 
 const moment = require("moment");
 
 const documents : Document[] = [];
 
-for(let i = 0; i < 500; i++) {
+for(let i = 0; i < 16000; i++) {
 	let doc = new Document();
 
 	doc.id = i.toString();
@@ -49,7 +50,10 @@ PGBatchTest.start(documents)
 	.then(() => truncator.truncate())
     .then(() => PGCustomInsertTest.start(documents))
     .then(() => truncator.truncate())
-    .then(() => {
+	.then( () => SequelizeTest.start(documents))
+    .then(() => truncator.truncate())
+
+	.then(() => {
         console.log("Finished test.");
         process.exit();
     })
