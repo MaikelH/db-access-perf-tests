@@ -1,3 +1,5 @@
+import { UsageStats } from "../UsageStats";
+
 const pgp = require('pg-promise')({ noWarnings: true});
 import {Document} from "../Document";
 
@@ -13,6 +15,9 @@ export class PGTest {
 		});
 
 		let start = new Date().getTime();
+        const us = new UsageStats();
+        us.start();
+
 		let inserts: Promise<void>[] = [];
 
 		docs.forEach(doc => {
@@ -29,8 +34,14 @@ export class PGTest {
 		Promise.all(inserts)
 			.then(doc => {
 				let end = new Date().getTime();
+                const stats = us.stop();
 
-				console.log("[PG-Promise] Call to persist took " + (end - start) + " milliseconds.");
+
+                console.log("[PG-Promise] Call to persist took " + (end - start) + " milliseconds.");
+                console.log(`
+                    avg cpu: ${stats.avgCpu}
+                    avg memory: ${stats.avgMemory}
+                `);
 
                 pgp.end();
 			})

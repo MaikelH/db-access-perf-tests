@@ -16,8 +16,13 @@
     "typescript": "^2.2.1"
   },
   "dependencies": {
+    "@types/sequelize": "^4.0.77",
+    "@types/usage": "^0.0.28",
     "moment": "^2.17.1",
+    "pg-hstore": "^2.3.2",
     "pg-promise": "^5.5.8",
-    "typeorm": "^0.1.1"
+    "sequelize": "^4.15.0",
+    "typeorm": "^0.1.1",
+    "usage": "^0.7.1"
   }
 }
