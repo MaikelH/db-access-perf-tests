@@ -38,10 +38,10 @@ export class PGTest {
 
 
                 console.log("[PG-Promise] Call to persist took " + (end - start) + " milliseconds.");
-                console.log(`
-                    avg cpu: ${stats.avgCpu}
-                    avg memory: ${stats.avgMemory}
-                `);
+                // console.log(`
+                //     avg cpu: ${stats.avgCpu}
+                //     avg memory: ${stats.avgMemory}
+                // `);
 
                 pgp.end();
 			})

@@ -10,6 +10,8 @@ const moment = require("moment");
 
 const documents : Document[] = [];
 
+const runs = 5;
+
 for(let i = 0; i < 4000; i++) {
 	let doc = new Document();
 
@@ -39,25 +41,33 @@ for(let i = 0; i < 4000; i++) {
 	documents.push(doc);
 }
 
-let truncator = new Truncate();
-
-
-PGBatchTest.start(documents)
-	.then(() => truncator.truncate())
-	.then(() => TypeormTest.start(documents))
-	.then(() => truncator.truncate())
-	.then(() => PGTest.start(documents))
-	.then(() => truncator.truncate())
-    .then(() => PGCustomInsertTest.start(documents))
-    .then(() => truncator.truncate())
-	.then( () => SequelizeTest.start(documents))
-    .then(() => truncator.truncate())
-
-	.then(() => {
-        console.log("Finished test.");
-        process.exit();
-    })
-	.catch(ex => {
+start()
+    .then(() => {
+		console.log("Finished test.");
+		process.exit();
+	})
+    .catch(ex => {
 		console.error(ex);
-	});
+	});;
+
+async function start() {
+	let truncator = new Truncate();
+
+	for( let i = 1; i <= runs; i++) {
+
+		console.log(`### Run ${i}`);
+		await PGBatchTest.start(documents)
+            .then(() => truncator.truncate())
+            .then(() => TypeormTest.start(documents))
+            .then(() => truncator.truncate())
+            .then(() => PGTest.start(documents))
+            .then(() => truncator.truncate())
+            .then(() => PGCustomInsertTest.start(documents))
+            .then(() => truncator.truncate())
+            .then(() => SequelizeTest.start(documents))
+            .then(() => truncator.truncate())
+	}
+}
+
+
 

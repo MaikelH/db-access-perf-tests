@@ -30,12 +30,14 @@ export class TypeormTest {
                                     const stats = us.stop();
 
                                     console.log("[Typeorm] Call to persist took " + (end - start) + " milliseconds.");
-                                    console.log(`
-                                    	avg cpu: ${stats.avgCpu}
-                                    	avg memory: ${stats.avgMemory}
-									`)
+                                    // console.log(`
+                                    	// avg cpu: ${stats.avgCpu}
+                                    	// avg memory: ${stats.avgMemory}
+									// `)
                                 })
-			)
+			).then(() => {
+			    return con.close();
+            })
 		})
 	}
 }

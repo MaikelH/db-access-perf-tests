@@ -40,10 +40,10 @@ export class PGBatchTest {
 
 
             console.log("[PG-Batch] Call to persist took " + (end - start) + " milliseconds.");
-            console.log(`
-				avg cpu: ${stats.avgCpu}
-				avg memory: ${stats.avgMemory}
-			`);
+            // console.log(`
+			// 	avg cpu: ${stats.avgCpu}
+			// 	avg memory: ${stats.avgMemory}
+			// `);
 
             pgp.end();
 		})
