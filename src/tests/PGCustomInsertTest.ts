@@ -22,7 +22,10 @@ export class PGCustomInsertTest {
         const us = new UsageStats();
         us.start();
 
-        const sql = pgp.helpers.insert(docs, cs); // No conflict resolution? - see the other PR I did ;)
+        // New syntax in pg-promise 7.3 to support excludes (thanks to @vitaly-t)
+        const sql = pgp.helpers.insert(docs, cs) +
+                            ' ON CONFLICT (id) DO UPDATE SET ' +
+                            cs.assignColumns({from: 'EXCLUDED', skip: 'id'});
 
         return db.query(sql)
             .then(() => {
