@@ -23,11 +23,11 @@ export class PGTest {
 		docs.forEach(doc => {
 			inserts.push(db.none(`insert into document(id, \"docId\", label, context, distributions, date)
 							values($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET 
-								\"docId\" =  $2,
-								label = $3,
-								context = $4,
-								distributions = $5,
-								date = $6`,
+                                "docsId" = EXCLUDED."docId",
+                                label = EXCLUDED.label,
+                                context = EXCLUDED.context,
+                                distributions = EXCLUDED.distributions,
+                                date = EXCLUDED.date`,
 							[doc.id, doc.docId, doc.label, doc.context, JSON.stringify(doc.distributions), doc.date]))
 		});
 
