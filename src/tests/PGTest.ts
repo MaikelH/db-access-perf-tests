@@ -3,6 +3,9 @@ import { UsageStats } from "../UsageStats";
 const pgp = require('pg-promise')({ noWarnings: true});
 import {Document} from "../Document";
 
+/**
+ * Very simple and naive test. This method should not be used in production.
+ */
 export class PGTest {
 
 	public static start(docs: Document[]) {
