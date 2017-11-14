@@ -19,8 +19,6 @@ export class PGCustomInsertTest {
     public static start(docs: Document[]) {
 
         const start = Date.now();
-        const us = new UsageStats();
-        us.start();
 
         // New syntax in pg-promise 7.3 to support excludes (thanks to @vitaly-t)
         const sql = pgp.helpers.insert(docs, cs) +
@@ -30,16 +28,9 @@ export class PGCustomInsertTest {
         return db.query(sql)
             .then(() => {
                 const duration = Date.now() - start;
-                const stats = us.stop();
 
 
                 console.log("[PG-InsertHelper] Call to persist took " + duration + " milliseconds.");
-                //     console.log(`
-                //     avg cpu: ${stats.avgCpu}
-                //     avg memory: ${stats.avgMemory}
-                // `);
-
-                pgp.end();
             })
     }
 }

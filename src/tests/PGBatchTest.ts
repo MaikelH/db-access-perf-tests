@@ -15,9 +15,6 @@ export class PGBatchTest {
 		});
 
 		let start = new Date().getTime();
-        const us = new UsageStats();
-        us.start();
-
 
 		return db.tx(t => {
 			let inserts: Promise<void>[] = [];
@@ -25,7 +22,7 @@ export class PGBatchTest {
 			docs.forEach(doc => {
 				inserts.push(t.none(`insert into document(id, \"docId\", label, context, distributions, date)
 							values($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET 
-								"docsId" = EXCLUDED."docId",
+								"docId" = EXCLUDED."docId",
                                 label = EXCLUDED.label,
                                 context = EXCLUDED.context,
                                 distributions = EXCLUDED.distributions,
@@ -36,16 +33,8 @@ export class PGBatchTest {
 			return t.batch(inserts);
 		}).then(() => {
 			let end = new Date().getTime();
-            const stats = us.stop();
-
 
             console.log("[PG-Batch] Call to persist took " + (end - start) + " milliseconds.");
-            // console.log(`
-			// 	avg cpu: ${stats.avgCpu}
-			// 	avg memory: ${stats.avgMemory}
-			// `);
-
-            pgp.end();
 		})
 	}
 }

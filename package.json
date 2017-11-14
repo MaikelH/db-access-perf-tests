@@ -22,7 +22,7 @@
     "pg-hstore": "^2.3.2",
     "pg-promise": "7.3.1",
     "sequelize": "^4.15.0",
-    "typeorm": "^0.1.1",
+    "typeorm": "^0.2.0-alpha.1",
     "usage": "^0.7.1"
   }
 }

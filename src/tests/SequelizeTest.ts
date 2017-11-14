@@ -39,13 +39,8 @@ export class SequelizeTest {
                 });
             }).then(() => {
                 let end = new Date().getTime();
-                const stats = us.stop();
 
                 console.log("[Sequelize] Call to persist took " + (end - start) + " milliseconds.");
-                // console.log(`
-                //     avg cpu: ${stats.avgCpu}
-                //     avg memory: ${stats.avgMemory}
-                // `);
                 return resolve();
             }).catch(ex => {
                 return reject(ex);

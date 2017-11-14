@@ -18,15 +18,13 @@ export class PGTest {
 		});
 
 		let start = new Date().getTime();
-        const us = new UsageStats();
-        us.start();
 
 		let inserts: Promise<void>[] = [];
 
 		docs.forEach(doc => {
 			inserts.push(db.none(`insert into document(id, \"docId\", label, context, distributions, date)
 							values($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET 
-                                "docsId" = EXCLUDED."docId",
+                                "docId" = EXCLUDED."docId",
                                 label = EXCLUDED.label,
                                 context = EXCLUDED.context,
                                 distributions = EXCLUDED.distributions,
@@ -37,16 +35,9 @@ export class PGTest {
 		Promise.all(inserts)
 			.then(doc => {
 				let end = new Date().getTime();
-                const stats = us.stop();
 
 
                 console.log("[PG-Promise] Call to persist took " + (end - start) + " milliseconds.");
-                // console.log(`
-                //     avg cpu: ${stats.avgCpu}
-                //     avg memory: ${stats.avgMemory}
-                // `);
-
-                pgp.end();
 			})
 	}
 }

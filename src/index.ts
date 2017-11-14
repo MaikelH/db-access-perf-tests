@@ -1,18 +1,19 @@
 import {Document} from "./Document";
-import {TypeormTest} from "./tests/TypeormTest";
+import { TypeormSave } from "./tests/TypeormSave";
 import {PGTest} from "./tests/PGTest";
 import {Truncate} from "./Truncate";
 import {PGBatchTest} from "./tests/PGBatchTest";
 import { PGCustomInsertTest } from "./tests/PGCustomInsertTest";
 import { SequelizeTest } from "./tests/SequelizeTest";
+import { TypeormInsert } from "./tests/TypeormInsert";
 
 const moment = require("moment");
 
 const documents : Document[] = [];
 
-const runs = 5;
+const runs = 1;
 
-for(let i = 0; i < 4000; i++) {
+for(let i = 0; i < 2000; i++) {
 	let doc = new Document();
 
 	doc.id = i.toString();
@@ -48,7 +49,7 @@ start()
 	})
     .catch(ex => {
 		console.error(ex);
-	});;
+	});
 
 async function start() {
 	let truncator = new Truncate();
@@ -56,16 +57,18 @@ async function start() {
 	for( let i = 1; i <= runs; i++) {
 
 		console.log(`### Run ${i}`);
-		await PGBatchTest.start(documents)
-            .then(() => truncator.truncate())
-            .then(() => TypeormTest.start(documents))
-            .then(() => truncator.truncate())
-            .then(() => PGTest.start(documents))
-            .then(() => truncator.truncate())
-            .then(() => PGCustomInsertTest.start(documents))
-            .then(() => truncator.truncate())
-            .then(() => SequelizeTest.start(documents))
-            .then(() => truncator.truncate())
+		await PGBatchTest.start(documents);
+        await truncator.truncate();
+        await TypeormInsert.start(documents);
+        await truncator.truncate();
+        await TypeormSave.start(documents);
+        await truncator.truncate();
+        await PGTest.start(documents);
+        await truncator.truncate();
+        await PGCustomInsertTest.start(documents);
+        await truncator.truncate();
+        // await SequelizeTest.start(documents);
+        // await truncator.truncate();
 	}
 }
 

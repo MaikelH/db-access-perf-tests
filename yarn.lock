@@ -1945,9 +1945,9 @@ toposort-class@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/toposort-class/-/toposort-class-1.0.1.tgz#7ffd1f78c8be28c3ba45cd4e1a3f5ee193bd9988"
 
-typeorm@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.1.1.tgz#d2a4b41a087e6a6e3b9e23b303ae65a7d5446461"
+typeorm@^0.2.0-alpha.1:
+  version "0.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.0-alpha.1.tgz#5b1784a191f3879b093c7f594093951d5bcf8e50"
   dependencies:
     app-root-path "^2.0.1"
     chalk "^2.0.1"
