@@ -6,6 +6,7 @@ import {PGBatchTest} from "./tests/PGBatchTest";
 import { PGCustomInsertTest } from "./tests/PGCustomInsertTest";
 import { SequelizeTest } from "./tests/SequelizeTest";
 import { TypeormInsert } from "./tests/TypeormInsert";
+import { SequelizeTypescript } from "./tests/SequelizeTypescript";
 
 const moment = require("moment");
 
@@ -13,7 +14,7 @@ const documents : Document[] = [];
 
 const runs = 1;
 
-for(let i = 0; i < 2000; i++) {
+for(let i = 0; i < 8000; i++) {
 	let doc = new Document();
 
 	doc.id = i.toString();
@@ -57,7 +58,7 @@ async function start() {
 	for( let i = 1; i <= runs; i++) {
 
 		console.log(`### Run ${i}`);
-		await PGBatchTest.start(documents);
+        await PGBatchTest.start(documents);
         await truncator.truncate();
         await TypeormInsert.start(documents);
         await truncator.truncate();
@@ -67,8 +68,10 @@ async function start() {
         await truncator.truncate();
         await PGCustomInsertTest.start(documents);
         await truncator.truncate();
-        // await SequelizeTest.start(documents);
-        // await truncator.truncate();
+        await SequelizeTypescript.start(documents as any)
+        await truncator.truncate();
+        await SequelizeTest.start(documents);
+        await truncator.truncate();
 	}
 }
 

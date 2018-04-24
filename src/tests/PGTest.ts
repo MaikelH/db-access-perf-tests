@@ -32,12 +32,12 @@ export class PGTest {
 							[doc.id, doc.docId, doc.label, doc.context, JSON.stringify(doc.distributions), doc.date]))
 		});
 
-		Promise.all(inserts)
-			.then(doc => {
-				let end = new Date().getTime();
+		return Promise.all(inserts)
+                    .then(doc => {
+                        let end = new Date().getTime();
 
 
-                console.log("[PG-Promise] Call to persist took " + (end - start) + " milliseconds.");
-			})
+                        console.log("[PG-Promise] Call to persist took " + (end - start) + " milliseconds.");
+                    })
 	}
 }
